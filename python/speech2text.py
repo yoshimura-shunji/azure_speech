@@ -61,12 +61,12 @@ def recognize_from_file(input_file, config):
                 logger.info('Adding phrase to grammer: {}'.format(phrase))
                 phrase_list_grammar.addPhrase(phrase)
     except KeyError:
-        logger.info('No phrase_list_file info found in config file')
+        logger.info('No phrase_list_file definition found in config file')
     except IOError as e:
         logger.exception(e)
 
     done = False
-    recognized_events = []
+    results = []
 
     def stop_cb(evt):
         logger.info('CLOSING on {}'.format(evt))
@@ -74,14 +74,14 @@ def recognize_from_file(input_file, config):
         nonlocal done
         done = True
 
-    def save_events(evt):
+    def save_results(evt):
         logger.info('RECOGNIZED: {}'.format(evt))
-        recognized_events.append(evt)
+        results.append(evt.result.text)
 
     speech_recognizer.recognizing.connect(
         lambda evt: logger.debug('RECOGNIZING: {}'.format(evt))
     )
-    speech_recognizer.recognized.connect(save_events)
+    speech_recognizer.recognized.connect(save_results)
     speech_recognizer.session_started.connect(
         lambda evt: logger.info('SESSION STARTED: {}'.format(evt))
     )
@@ -101,10 +101,10 @@ def recognize_from_file(input_file, config):
 
     logger.info(
         'number of recognized events: {}'.format(
-            len(recognized_events)
+            len(results)
         )
     )
-    return recognized_events
+    return results
 
 
 def main():
@@ -119,8 +119,7 @@ def main():
         logger.error('file not exist: {}'.format(input_file))
         raise IOError
 
-    evts = recognize_from_file(input_file, config)
-    results = [x.result.text for x in evts]
+    results = recognize_from_file(input_file, config)
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(results))
 
