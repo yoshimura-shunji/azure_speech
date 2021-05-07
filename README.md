@@ -44,12 +44,16 @@ config.json の subscription には Azure のサブスクリプションキー�
 
 フレーズリストには phrase\_list.txt.sample のように、認識させたいフレーズや単語を改行区切りで羅列してください。
 
-入力可能な音声ファイルはサンプリングレート 16kHz の WAV フォーマットです。他の形式のファイルについては何らかのツールで変換してください。
-
-以上の準備が整ったら、以下のコマンドで認識が可能です (入力音声ファイルを input.wav、結果を書き込むファイルを output.txt とします)。
+入力可能な音声ファイルはモノラルでサンプリングレート 16kHz の WAV フォーマットです。他の形式のファイルについては何らかのツールで変換してください。例えば ffmpeg なら下記コマンドで変換できます。
 
 ```bash
-python3 speech2text.py input.wav output.txt
+ffmpeg -i speech_org.mp3 -ac 1 -ar 16000 speech.wav
+```
+
+以上の準備が整ったら、以下のコマンドで認識が可能です (入力音声ファイルを speech.wav、結果を書き込むファイルを output.txt とします)。
+
+```bash
+python3 speech2text.py speech.wav output.txt
 ```
 
 # Note
