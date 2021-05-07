@@ -36,7 +36,7 @@ pip install azure-cognitiveservices-speech
 
 ```bash
 git clone https://github.com/yoshimura-shunji/azure_speech.git
-cd python
+cd azure_speech
 cp config.json.sample config.json
 ```
 
