@@ -1,0 +1,7 @@
+{
+    "subscription": "xxxxxxxx",
+    "region": "westus2",
+    "speech_recognition_language": "ja-JP",
+    "enable_dictation": true,
+    "phrase_list_file": "./phrase_list.txt"
+}
